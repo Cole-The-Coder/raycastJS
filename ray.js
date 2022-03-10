@@ -48,8 +48,8 @@ class Ray {
         stroke(255);
         push();
         translate(this.pos.x, this.pos.y);
-        ellipse(0, 0, 5,5);
-        line(0,0 , 10* this.dir.x, 10*this.dir.y);
+        //ellipse(0, 0, 5,5);
+        //line(0,0 , 10* this.dir.x, 10*this.dir.y);
         pop();
 
     }

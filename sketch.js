@@ -1,6 +1,6 @@
 const wWidth = 800;
 const wHeight = 600;
-const FOV = 66;
+const FOV = 70;
 const startPosX = 100;
 const startPosY = 150;
 
@@ -23,73 +23,48 @@ function setup() {
     walls.push(new Boundary(0, 0, 0, wHeight));
 
     player = new Player(startPosX, startPosY);
-
-    for (let ang = -FOV/2; ang < FOV/2; ang += 5) {
-        rays.push(new Ray(startPosX, startPosY, radians(ang) ));
-    }
     background(0);
 
 } 
 function draw() {
     background(0);
-    // a.show();
-    // a.lookAt(mouseX, mouseY);
 
-
+    player.show();
     for(let wall of walls) {
         wall.show();
     }
-
-    push();
-    stroke(155,200,0,100);
-    for (let ray of rays) {
+    for (let ray of player.rays) {
         let closest = createVector(0,0);
         let min = Infinity;
         for (let wall of walls) {
             let p = ray.cast(wall);
             if (p) {
-
                 let distance = Math.sqrt(Math.pow(p.x - ray.pos.x,2) + Math.pow(p.y - ray.pos.y,2));
                 if (distance < min) {
                     min = distance;
                     closest = p;
-                    
                 }
-                
             }
         }
-        //console.log()
         if (min < Infinity) {
             line(ray.pos.x, ray.pos.y, closest.x, closest.y);
+            ellipse(closest.x,closest.y, 2, 2);
         }
-
-        // //movement
-        if(keyIsDown(65)) { //a
-            ray.lookAt(radians(-5));
-            player.rotate(-0.5);
-        }
-        if (keyIsDown(68)) { //d
-            ray.lookAt(radians(5));
-            player.rotate(0.5);
-        }
-        if (keyIsDown(87)) { //w
-            player.move(0, 1);
-        }
-        if (keyIsDown(83)) { //s
-            player.move(0, -1);
-        }
-       
-
     }
 
-    player.show();
-    pop();
+    //movement
+    if(keyIsDown(65)) { //a
 
-    
-
-    // for (let i = 0; i < 360; i +=5) {
-
-    
-
-    
+        player.rotate(-1);
+    }
+    if (keyIsDown(68)) { //d
+        player.rotate(1);
+    }
+    if (keyIsDown(87)) { //w
+        player.move(0, 2);
+    }
+    if (keyIsDown(83)) { //s
+        player.move(0, -2);
+    }
+ 
 }
