@@ -3,6 +3,8 @@ const cHeight = 400;
 const FOV = 70;
 const startPosX = 100;
 const startPosY = 150;
+const step_size = 0.5;
+
 
 let rays = [];
 let walls = [];
@@ -31,7 +33,7 @@ function setup() {
 } 
 function draw() {
     background(0);
-    pg.background(0);
+    pg.background(100);
    
     player.show();
     let scene = player.look(walls);
@@ -40,20 +42,23 @@ function draw() {
     }
 
     //viewscreen
+    pg.push();
     push();
+    //pg.stroke(0);
     pg.noStroke();
     
     let perpDist;
-    let dx = cWidth/scene.length;
+    let dx = round(cWidth/scene.length);
     let theta = player.dir.heading() - radians(FOV/2);
     for (let i = 0; i < scene.length; i+= 1) {
         theta = theta + radians(step_size);
         perpDist = scene[i] * Math.cos(player.dir.heading() - theta);
-        let wallHeight = 10*cHeight/perpDist;
-        pg.fill(wallHeight/cHeight * 255);
-        pg.rect(i* dx, (cHeight - wallHeight) / 2, dx, wallHeight);
+        let wallHeight = 20*cHeight/perpDist;
+        pg.fill(200,12,60, 5000/(perpDist*perpDist) * 255);
+        pg.rect(floor(i* dx), (cHeight - wallHeight) / 2, dx, wallHeight);
     }
     pg.show();
+    pg.pop();
     pop();
 
     //movement

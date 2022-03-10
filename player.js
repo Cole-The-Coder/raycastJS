@@ -1,5 +1,5 @@
 
-const step_size = 1;
+
 
 class Player {
     constructor(x, y) {
